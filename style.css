@@ -1,279 +1,740 @@
-// ===== PAGE NAVIGATION =====
-const pages = Array.from(document.querySelectorAll(".page"));
-const stageIndicator = document.getElementById("stageIndicator");
+* {
+  box-sizing: border-box;
+}
 
-// page index: 0 = password, 1..9 real content
-let currentIndex = 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* background foto full-screen */
+  background:
+    linear-gradient(135deg, rgba(5, 8, 20, 0.80), rgba(5, 8, 20, 0.96)),
+    url("/Users/macbookpro/Downloads/Untitled design (22).png") center center / cover no-repeat fixed;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: #f5f5f7;
+  overflow: hidden; /* no scroll bocor */
+}
 
-// stage pages (cover..letter) = 9
-const stagePages = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+body {
+  position: relative;
+}
 
-// typing flags
-let prologueTyped = false;
-let letterTyped = false;
-let typingTimer = null;
+/* GLOBAL LABELS */
 
-// background music
-const bgMusic = document.getElementById("bgMusic");
+.top-label {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c1c7dd;
+  z-index: 20;
+}
 
-// show page by index
-function showPage(index) {
-  currentIndex = index;
+.stage-indicator {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #d7bd7a;
+  z-index: 20;
+}
 
-  pages.forEach((page, i) => {
-    if (i === index) {
-      page.classList.add("active");
-    } else {
-      page.classList.remove("active");
-    }
-  });
+/* PAGE WRAPPER */
 
-  // stage indicator (only for non-password)
-  const stagePosition = stagePages.indexOf(index);
-  if (stagePosition !== -1) {
-    stageIndicator.textContent = `Page ${stagePosition + 1} / ${stagePages.length}`;
-  } else {
-    stageIndicator.textContent = "";
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* PAGE INNER CARD */
+
+.page-inner {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 28px 24px 24px;
+  background: rgba(5, 8, 20, 0.96);
+  border: 1px solid rgba(92, 105, 155, 0.85);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
+}
+
+/* CARD VARIANTS */
+
+.password-card {
+  text-align: center;
+}
+
+.cover-card {
+  text-align: center;
+}
+
+.text-card {
+  max-width: 720px;
+}
+
+/* TITLES */
+
+.title-main {
+  font-family: "Merriweather", serif;
+  font-size: 32px;
+  margin: 6px 0 10px;
+  color: #f1d28a;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.86;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: "Merriweather", serif;
+  font-size: 24px;
+  margin-bottom: 6px;
+  color: #f1d28a;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  opacity: 0.82;
+  margin-bottom: 14px;
+}
+
+/* BUTTONS */
+
+.btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #f1d28a, #d4b56a);
+  color: #11131d;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8);
+  transition: 0.25s ease;
+}
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #ffe4a7, #f1d28a);
+  transform: translateY(-1px);
+}
+
+.ghost-btn {
+  background: transparent;
+  color: #f5f5f7;
+  border: 1px solid rgba(112, 125, 175, 0.9);
+  transition: 0.25s ease;
+}
+
+.ghost-btn:hover {
+  background: rgba(18, 23, 48, 0.95);
+}
+
+.nav-row {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* PASSWORD GATE */
+
+.password-label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.password-input {
+  width: 220px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(112, 125, 175, 0.9);
+  background: #0d1122;
+  color: #f5f5f7;
+  margin-bottom: 8px;
+  outline: none;
+}
+
+.password-input:focus {
+  border-color: #f1d28a;
+}
+
+.password-hint {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+.password-hint span {
+  color: #f1d28a;
+}
+
+.password-error {
+  font-size: 12px;
+  color: #e66b66;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+/* error shake */
+
+.password-card.shake {
+  animation: shakeBox 0.35s ease;
+}
+
+/* COVER ANIM */
+
+.cover-content {
+  padding: 30px 0 12px;
+}
+
+.cover-anim {
+  animation: coverPop 0.9s ease forwards;
+}
+
+.cover-anim-delay {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.25s;
+}
+
+/* PROLOGUE & LETTER TYPING */
+
+.typing-block {
+  margin-top: 10px;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  min-height: 180px;
+  position: relative;
+}
+
+.typing-block::after {
+  content: "▋";
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 14px;
+  animation: cursorBlink 0.8s steps(1) infinite;
+}
+
+.typing-source {
+  display: none;
+}
+
+/* JOURNEY BLOCK */
+
+.journey-block {
+  margin-top: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.journey-section {
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.journey-heading {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #f1d28a;
+  margin-bottom: 4px;
+}
+
+.journey-section p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 4px 0;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.fade-up-delay {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+  animation-delay: 0.15s;
+}
+
+.fade-up-delay2 {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* TRIVIA CROSSWORD STYLE */
+
+.crossword-grid-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crossword-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 4px;
+  padding: 10px 10px 8px;
+  border-radius: 12px;
+  background: rgba(10, 13, 30, 0.95);
+  border: 1px solid rgba(104, 118, 168, 0.9);
+}
+
+.clue-label {
+  font-size: 13px;
+  color: #f1d28a;
+}
+
+.clue-text {
+  font-size: 13px;
+  align-self: center;
+}
+
+.crossword-boxes {
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.cross-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid rgba(165, 174, 214, 0.9);
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 20, 0.9);
+}
+
+.cross-box.space {
+  border: none;
+  background: transparent;
+  width: 10px;
+}
+
+.reveal-btn {
+  grid-column: 1 / span 2;
+  margin-top: 4px;
+  align-self: flex-start;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(136, 147, 193, 0.95);
+  background: transparent;
+  color: #f5f5f7;
+  cursor: pointer;
+}
+
+.reveal-btn:hover {
+  background: rgba(22, 29, 60, 0.95);
+}
+
+.tiny-note {
+  margin-top: 10px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.crossword-input-row {
+  grid-column: 1 / span 2;
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.crossword-input {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(136, 147, 193, 0.95);
+  background: #05081a;
+  color: #f5f5f7;
+  font-size: 12px;
+  outline: none;
+}
+
+.crossword-input:focus {
+  border-color: #f1d28a;
+}
+
+.crossword-submit {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(241, 210, 138, 0.9);
+  color: #11131d;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.crossword-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cross-box.filled {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.crossword-item.shake {
+  animation: shakeBox 0.35s ease;
+}
+
+.error-input {
+  border-color: #e66b66 !important;
+}
+
+.btn[disabled] {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* 25 THINGS — ACCORDION */
+
+.reasons-wrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.reason-card {
+  background: rgba(10, 13, 30, 0.96);
+  border-radius: 14px;
+  border: 1px solid rgba(114, 125, 177, 0.9);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+    transform 0.15s ease;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.reason-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.reason-card:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.reason-card:nth-child(3) {
+  animation-delay: 0.13s;
+}
+.reason-card:nth-child(4) {
+  animation-delay: 0.17s;
+}
+.reason-card:nth-child(5) {
+  animation-delay: 0.21s;
+}
+.reason-card:nth-child(6) {
+  animation-delay: 0.25s;
+}
+/* sisanya lanjut natural aja */
+
+.reason-title {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reason-title::after {
+  content: "＋";
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.reason-card.open .reason-title::after {
+  content: "−";
+}
+
+.reason-body {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 4px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+
+.reason-card.open {
+  background: rgba(16, 21, 48, 0.98);
+  border-color: #f1d28a;
+  transform: translateY(0);
+}
+
+.reason-card.open .reason-body {
+  max-height: 200px;
+  opacity: 1;
+}
+
+/* PHOTOBOX */
+
+.photo-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.photo-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  background: rgba(9, 12, 30, 0.98);
+  border-radius: 18px;
+  padding: 12px;
+  border: 1px solid rgba(106, 119, 171, 0.85);
+  text-align: center;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
+}
+
+.photo-left {
+  animation: slideInLeft 0.7s ease forwards;
+  opacity: 0;
+}
+
+.photo-right {
+  animation: slideInRight 0.7s ease forwards;
+  opacity: 0;
+}
+
+.player-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.photo-card img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.photo-caption {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* GIFTS */
+
+.gift-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.gift-card {
+  flex: 1 1 0;
+  min-width: 190px;
+  height: 140px;
+  perspective: 800px;
+}
+
+.gift-front,
+.gift-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-front {
+  background: linear-gradient(135deg, #f1d28a, #d5b56b);
+  font-size: 28px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
+}
+
+.gift-back {
+  background: rgba(9, 12, 30, 0.98);
+  border: 1px solid rgba(112, 124, 176, 0.9);
+  flex-direction: column;
+  padding: 12px 14px;
+  transform: rotateY(180deg);
+}
+
+.gift-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #f1d28a;
+}
+
+.gift-back p {
+  font-size: 12px;
+  opacity: 0.86;
+}
+
+.gift-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s ease;
+}
+
+.gift-card:hover {
+  transform: rotateY(180deg);
+}
+
+/* ANIMATION HELPERS */
+
+@keyframes coverPop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
   }
-
-  // handle typing triggers
-  const pageId = pages[index].id;
-  if (pageId === "page-prologue") {
-    startTypingOnce("prologueTyping", "prologueSource", 22, "prologue");
-  }
-  if (pageId === "page-letter") {
-    startTypingOnce("letterTyping", "letterSource", 55, "letter"); // lebih pelan
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-// ===== TYPING EFFECT =====
-
-function getSourceText(sourceId) {
-  const el = document.getElementById(sourceId);
-  if (!el) return "";
-  const paragraphs = Array.from(el.querySelectorAll("p"));
-  return paragraphs.map((p) => p.textContent.trim()).join("\n\n");
-}
-
-function startTypingOnce(targetId, sourceId, speed, flag) {
-  const target = document.getElementById(targetId);
-  if (!target) return;
-
-  // if already typed once, just show full text
-  if (flag === "prologue" && prologueTyped) {
-    target.textContent = getSourceText(sourceId);
-    return;
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  if (flag === "letter" && letterTyped) {
-    target.textContent = getSourceText(sourceId);
-    return;
-  }
-
-  // stop previous typing
-  if (typingTimer) {
-    clearInterval(typingTimer);
-    typingTimer = null;
-  }
-
-  const fullText = getSourceText(sourceId);
-  let index = 0;
-  target.textContent = "";
-
-  typingTimer = setInterval(() => {
-    if (index >= fullText.length) {
-      clearInterval(typingTimer);
-      typingTimer = null;
-      if (flag === "prologue") prologueTyped = true;
-      if (flag === "letter") letterTyped = true;
-      return;
-    }
-    target.textContent += fullText.charAt(index);
-    index++;
-  }, speed);
-}
-
-// ===== NAV BUTTONS (NEXT / PREV) =====
-const navButtons = document.querySelectorAll(".nav-btn");
-
-navButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const dir = btn.dataset.nav;
-    if (dir === "next") {
-      if (currentIndex < pages.length - 1) {
-        showPage(currentIndex + 1);
-      }
-    } else if (dir === "prev") {
-      if (currentIndex > 0) {
-        showPage(currentIndex - 1);
-      }
-    }
-  });
-});
-
-// ===== PASSWORD GATE 1 =====
-const passwordBtn = document.getElementById("passwordBtn");
-const passwordInput = document.getElementById("passwordInput");
-const passwordError = document.getElementById("passwordError");
-const passwordCard = document.querySelector(".password-card");
-
-// password benar: "170823"
-const CORRECT_PASSWORD = "170823";
-
-function handlePasswordCheck() {
-  const val = (passwordInput.value || "").trim();
-
-  if (val === CORRECT_PASSWORD) {
-    passwordError.textContent = "";
-    // mulai musik
-    if (bgMusic) {
-      bgMusic.play().catch(() => {});
-    }
-    showPage(1); // masuk ke cover
-  } else {
-    passwordError.textContent = "coba lg ya botto sayang";
-    if (passwordCard) {
-      passwordCard.classList.remove("shake");
-      void passwordCard.offsetWidth; // force reflow
-      passwordCard.classList.add("shake");
-    }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-if (passwordBtn && passwordInput) {
-  passwordBtn.addEventListener("click", handlePasswordCheck);
-  passwordInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      handlePasswordCheck();
-    }
-  });
-}
-
-// ===== PASSWORD GATE 2 (PAGE 25) =====
-const gate25Btn = document.getElementById("gate25Btn");
-const gate25Input = document.getElementById("gate25Input");
-const gate25Error = document.getElementById("gate25Error");
-const GATE25_PASSWORD = "25";
-
-function handleGate25Check() {
-  const val = (gate25Input.value || "").trim();
-  if (val === GATE25_PASSWORD) {
-    gate25Error.textContent = "";
-    // langsung ke page reasons (index 6)
-    showPage(6);
-  } else {
-    gate25Error.textContent = "pelan2 botto, coba lg ya sayangku";
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
 
-if (gate25Btn && gate25Input) {
-  gate25Btn.addEventListener("click", handleGate25Check);
-  gate25Input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      handleGate25Check();
-    }
-  });
-}
-
-// ===== TRIVIA CROSSWORD SETUP — INTERAKTIF =====
-
-const crosswordBoxes = document.querySelectorAll(".crossword-boxes");
-
-// bikin kotak sesuai jumlah huruf
-crosswordBoxes.forEach((container) => {
-  const answer = (container.dataset.answer || "").toUpperCase();
-  container.innerHTML = "";
-
-  for (let ch of answer) {
-    const span = document.createElement("span");
-    if (ch === " ") {
-      span.className = "cross-box space";
-    } else {
-      span.className = "cross-box";
-      span.textContent = ""; // diisi kalau jawaban benar
-      span.dataset.letter = ch;
-    }
-    container.appendChild(span);
+@keyframes shakeBox {
+  0% {
+    transform: translateX(0);
   }
-});
-
-const crosswordItems = document.querySelectorAll(".crossword-item");
-const triviaNextBtn = document.getElementById("triviaNext");
-
-function checkAllTriviaSolved() {
-  const allSolved = Array.from(crosswordItems).every((item) =>
-    item.classList.contains("solved")
-  );
-  if (allSolved && triviaNextBtn) {
-    triviaNextBtn.disabled = false;
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
-crosswordItems.forEach((item) => {
-  const container = item.querySelector(".crossword-boxes");
-  const input = item.querySelector(".crossword-input");
-  const button = item.querySelector(".crossword-submit");
-  const boxes = item.querySelectorAll(".cross-box");
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-  if (!container || !input || !button) return;
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-  const rawAnswer = (container.dataset.answer || "").toUpperCase();
-  const normalizedAnswer = rawAnswer.replace(/\s+/g, ""); // buang spasi
+/* MOBILE */
 
-  button.addEventListener("click", () => {
-    const userRaw = (input.value || "").toUpperCase();
-    const userNormalized = userRaw.replace(/\s+/g, "");
+@media (max-width: 768px) {
+  .page-inner {
+    padding: 22px 16px 18px;
+  }
 
-    if (userNormalized === normalizedAnswer) {
-      // isi huruf ke kotak + animasi fade
-      boxes.forEach((box) => {
-        const letter = box.dataset.letter;
-        if (letter) {
-          box.textContent = letter;
-          box.classList.add("filled");
-        }
-      });
+  .nav-row {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
 
-      item.classList.add("solved");
-      input.disabled = true;
-      button.disabled = true;
-      input.classList.remove("error-input");
-      item.classList.remove("shake");
+  .nav-row .btn {
+    width: 100%;
+  }
 
-      checkAllTriviaSolved();
-    } else {
-      // jawaban salah → shake + warna error
-      input.classList.add("error-input");
-      item.classList.remove("shake");
-      void item.offsetWidth; // reset animasi
-      item.classList.add("shake");
-    }
-  });
+  .photo-row {
+    flex-direction: column;
+  }
 
-  // Enter key untuk submit
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      button.click();
-    }
-  });
+  .gift-row {
+    flex-direction: column;
+  }
 
-  // kalau dia mulai ngetik lagi, hilangin merahnya
-  input.addEventListener("input", () => {
-    input.classList.remove("error-input");
-  });
-});
+  .top-label {
+    font-size: 10px;
+  }
 
-// ===== 25 THINGS ACCORDION =====
-const reasonCards = document.querySelectorAll(".reason-card");
-
-reasonCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    // bisa multiple open, atau kalau mau single open uncomment logic di bawah
-    // reasonCards.forEach((c) => {
-    //   if (c !== card) c.classList.remove("open");
-    // });
-    card.classList.toggle("open");
-  });
-});
-
-// ===== AWAL: TAMPILKAN PAGE PASSWORD =====
-showPage(0);
+  .stage-indicator {
+    font-size: 10px;
+  }
+}

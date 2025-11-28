@@ -285,3 +285,10 @@ document.querySelectorAll('.final-btn').forEach(btn => {
     goToPage(jumpTo);
   });
 });
+
+// ===== GIFTS FLIP INTERACTION =====
+document.querySelectorAll('.gift-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});

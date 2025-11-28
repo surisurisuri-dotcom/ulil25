@@ -1,740 +1,654 @@
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  /* background foto full-screen */
-  background:
-    linear-gradient(135deg, rgba(5, 8, 20, 0.80), rgba(5, 8, 20, 0.96)),
-    url("/Users/macbookpro/Downloads/Untitled design (22).png") center center / cover no-repeat fixed;
-  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
-  color: #f5f5f7;
-  overflow: hidden; /* no scroll bocor */
-}
-
-body {
-  position: relative;
-}
-
-/* GLOBAL LABELS */
-
-.top-label {
-  position: fixed;
-  top: 12px;
-  left: 16px;
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #c1c7dd;
-  z-index: 20;
-}
-
-.stage-indicator {
-  position: fixed;
-  top: 12px;
-  right: 16px;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: #d7bd7a;
-  z-index: 20;
-}
-
-/* PAGE WRAPPER */
-
-.page {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  opacity: 0;
-  transform: translateY(18px) scale(0.97);
-  pointer-events: none;
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-
-.page.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-/* PAGE INNER CARD */
-
-.page-inner {
-  width: 100%;
-  max-width: 880px;
-  margin: 0 auto;
-  border-radius: 24px;
-  padding: 28px 24px 24px;
-  background: rgba(5, 8, 20, 0.96);
-  border: 1px solid rgba(92, 105, 155, 0.85);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
-}
-
-/* CARD VARIANTS */
-
-.password-card {
-  text-align: center;
-}
-
-.cover-card {
-  text-align: center;
-}
-
-.text-card {
-  max-width: 720px;
-}
-
-/* TITLES */
-
-.title-main {
-  font-family: "Merriweather", serif;
-  font-size: 32px;
-  margin: 6px 0 10px;
-  color: #f1d28a;
-  letter-spacing: 2px;
-}
-
-.subtitle {
-  font-size: 14px;
-  opacity: 0.86;
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-family: "Merriweather", serif;
-  font-size: 24px;
-  margin-bottom: 6px;
-  color: #f1d28a;
-}
-
-.section-subtitle {
-  font-size: 13px;
-  opacity: 0.82;
-  margin-bottom: 14px;
-}
-
-/* BUTTONS */
-
-.btn {
-  display: inline-block;
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.primary-btn {
-  background: linear-gradient(135deg, #f1d28a, #d4b56a);
-  color: #11131d;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8);
-  transition: 0.25s ease;
-}
-
-.primary-btn:hover {
-  background: linear-gradient(135deg, #ffe4a7, #f1d28a);
-  transform: translateY(-1px);
-}
-
-.ghost-btn {
-  background: transparent;
-  color: #f5f5f7;
-  border: 1px solid rgba(112, 125, 175, 0.9);
-  transition: 0.25s ease;
-}
-
-.ghost-btn:hover {
-  background: rgba(18, 23, 48, 0.95);
-}
-
-.nav-row {
-  margin-top: 22px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-/* PASSWORD GATE */
-
-.password-label {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 6px;
-  opacity: 0.85;
-}
-
-.password-input {
-  width: 220px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(112, 125, 175, 0.9);
-  background: #0d1122;
-  color: #f5f5f7;
-  margin-bottom: 8px;
-  outline: none;
-}
-
-.password-input:focus {
-  border-color: #f1d28a;
-}
-
-.password-hint {
-  font-size: 11px;
-  opacity: 0.7;
-  margin-top: 8px;
-}
-
-.password-hint span {
-  color: #f1d28a;
-}
-
-.password-error {
-  font-size: 12px;
-  color: #e66b66;
-  margin-top: 6px;
-  min-height: 18px;
-}
-
-/* error shake */
-
-.password-card.shake {
-  animation: shakeBox 0.35s ease;
-}
-
-/* COVER ANIM */
-
-.cover-content {
-  padding: 30px 0 12px;
-}
-
-.cover-anim {
-  animation: coverPop 0.9s ease forwards;
-}
-
-.cover-anim-delay {
-  opacity: 0;
-  animation: fadeUp 0.8s ease forwards;
-  animation-delay: 0.25s;
-}
-
-/* PROLOGUE & LETTER TYPING */
-
-.typing-block {
-  margin-top: 10px;
-  font-family: "Merriweather", serif;
-  font-size: 14px;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  min-height: 180px;
-  position: relative;
-}
-
-.typing-block::after {
-  content: "▋";
-  display: inline-block;
-  margin-left: 3px;
-  font-size: 14px;
-  animation: cursorBlink 0.8s steps(1) infinite;
-}
-
-.typing-source {
-  display: none;
-}
-
-/* JOURNEY BLOCK */
-
-.journey-block {
-  margin-top: 8px;
-  max-height: 360px;
-  overflow-y: auto;
-}
-
-.journey-section {
-  margin-bottom: 16px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.7s ease forwards;
-}
-
-.journey-heading {
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #f1d28a;
-  margin-bottom: 4px;
-}
-
-.journey-section p {
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 4px 0;
-}
-
-.fade-up {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.7s ease forwards;
-}
-
-.fade-up-delay {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.7s ease forwards;
-  animation-delay: 0.15s;
-}
-
-.fade-up-delay2 {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.7s ease forwards;
-  animation-delay: 0.3s;
-}
-
-/* TRIVIA CROSSWORD STYLE */
-
-.crossword-grid-container {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.crossword-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 8px;
-  row-gap: 4px;
-  padding: 10px 10px 8px;
-  border-radius: 12px;
-  background: rgba(10, 13, 30, 0.95);
-  border: 1px solid rgba(104, 118, 168, 0.9);
-}
-
-.clue-label {
-  font-size: 13px;
-  color: #f1d28a;
-}
-
-.clue-text {
-  font-size: 13px;
-  align-self: center;
-}
-
-.crossword-boxes {
-  grid-column: 1 / span 2;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.cross-box {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  border: 1px solid rgba(165, 174, 214, 0.9);
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(5, 8, 20, 0.9);
-}
-
-.cross-box.space {
-  border: none;
-  background: transparent;
-  width: 10px;
-}
-
-.reveal-btn {
-  grid-column: 1 / span 2;
-  margin-top: 4px;
-  align-self: flex-start;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(136, 147, 193, 0.95);
-  background: transparent;
-  color: #f5f5f7;
-  cursor: pointer;
-}
-
-.reveal-btn:hover {
-  background: rgba(22, 29, 60, 0.95);
-}
-
-.tiny-note {
-  margin-top: 10px;
-  font-size: 11px;
-  opacity: 0.75;
-}
-
-.crossword-input-row {
-  grid-column: 1 / span 2;
-  margin-top: 6px;
-  display: flex;
-  gap: 6px;
-}
-
-.crossword-input {
-  flex: 1;
-  padding: 5px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(136, 147, 193, 0.95);
-  background: #05081a;
-  color: #f5f5f7;
-  font-size: 12px;
-  outline: none;
-}
-
-.crossword-input:focus {
-  border-color: #f1d28a;
-}
-
-.crossword-submit {
-  padding: 5px 10px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(241, 210, 138, 0.9);
-  color: #11131d;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.crossword-submit:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-.cross-box.filled {
-  animation: fadeUp 0.4s ease forwards;
-}
-
-.crossword-item.shake {
-  animation: shakeBox 0.35s ease;
-}
-
-.error-input {
-  border-color: #e66b66 !important;
-}
-
-.btn[disabled] {
-  opacity: 0.4;
-  cursor: default;
-  pointer-events: none;
-}
-
-/* 25 THINGS — ACCORDION */
-
-.reasons-wrapper {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 350px;
-  overflow-y: auto;
-}
-
-.reason-card {
-  background: rgba(10, 13, 30, 0.96);
-  border-radius: 14px;
-  border: 1px solid rgba(114, 125, 177, 0.9);
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background 0.25s ease, border-color 0.25s ease,
-    transform 0.15s ease;
-  opacity: 0;
-  transform: translateY(6px);
-  animation: fadeUp 0.7s ease forwards;
-}
-
-.reason-card:nth-child(1) {
-  animation-delay: 0.05s;
-}
-.reason-card:nth-child(2) {
-  animation-delay: 0.09s;
-}
-.reason-card:nth-child(3) {
-  animation-delay: 0.13s;
-}
-.reason-card:nth-child(4) {
-  animation-delay: 0.17s;
-}
-.reason-card:nth-child(5) {
-  animation-delay: 0.21s;
-}
-.reason-card:nth-child(6) {
-  animation-delay: 0.25s;
-}
-/* sisanya lanjut natural aja */
-
-.reason-title {
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.reason-title::after {
-  content: "＋";
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.reason-card.open .reason-title::after {
-  content: "−";
-}
-
-.reason-body {
-  font-size: 12px;
-  line-height: 1.6;
-  margin-top: 4px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.35s ease;
-}
-
-.reason-card.open {
-  background: rgba(16, 21, 48, 0.98);
-  border-color: #f1d28a;
-  transform: translateY(0);
-}
-
-.reason-card.open .reason-body {
-  max-height: 200px;
-  opacity: 1;
-}
-
-/* PHOTOBOX */
-
-.photo-row {
-  display: flex;
-  gap: 16px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.photo-card {
-  flex: 1 1 0;
-  min-width: 180px;
-  background: rgba(9, 12, 30, 0.98);
-  border-radius: 18px;
-  padding: 12px;
-  border: 1px solid rgba(106, 119, 171, 0.85);
-  text-align: center;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
-}
-
-.photo-left {
-  animation: slideInLeft 0.7s ease forwards;
-  opacity: 0;
-}
-
-.photo-right {
-  animation: slideInRight 0.7s ease forwards;
-  opacity: 0;
-}
-
-.player-label {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 6px;
-}
-
-.photo-card img {
-  width: 100%;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-.photo-caption {
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-/* GIFTS */
-
-.gift-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 10px;
-}
-
-.gift-card {
-  flex: 1 1 0;
-  min-width: 190px;
-  height: 140px;
-  perspective: 800px;
-}
-
-.gift-front,
-.gift-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  backface-visibility: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gift-front {
-  background: linear-gradient(135deg, #f1d28a, #d5b56b);
-  font-size: 28px;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
-}
-
-.gift-back {
-  background: rgba(9, 12, 30, 0.98);
-  border: 1px solid rgba(112, 124, 176, 0.9);
-  flex-direction: column;
-  padding: 12px 14px;
-  transform: rotateY(180deg);
-}
-
-.gift-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #f1d28a;
-}
-
-.gift-back p {
-  font-size: 12px;
-  opacity: 0.86;
-}
-
-.gift-card {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.7s ease;
-}
-
-.gift-card:hover {
-  transform: rotateY(180deg);
-}
-
-/* ANIMATION HELPERS */
-
-@keyframes coverPop {
-  0% {
-    opacity: 0;
-    transform: translateY(10px) scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes cursorBlink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes shakeBox {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(4px);
-  }
-  75% {
-    transform: translateX(-3px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-18px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-  .page-inner {
-    padding: 22px 16px 18px;
-  }
-
-  .nav-row {
-    flex-direction: column-reverse;
-    align-items: stretch;
-  }
-
-  .nav-row .btn {
-    width: 100%;
-  }
-
-  .photo-row {
-    flex-direction: column;
-  }
-
-  .gift-row {
-    flex-direction: column;
-  }
-
-  .top-label {
-    font-size: 10px;
-  }
-
-  .stage-indicator {
-    font-size: 10px;
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ulil at 25</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Montserrat:wght@300;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-label">ULIL · 25</div>
+  <div class="stage-indicator" id="stageIndicator"></div>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="/Users/macbookpro/Downloads/bg-music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- PAGE 0: PASSWORD GATE -->
+  <div class="page active" id="page-password" data-index="0">
+    <div class="page-inner password-card">
+      <h1 class="title-main">Private Page</h1>
+      <p class="subtitle">
+        This page is only for one person. If it's you, you already know the code.
+      </p>
+
+      <label class="password-label" for="passwordInput">Enter password</label>
+      <input
+        type="password"
+        id="passwordInput"
+        class="password-input"
+        autocomplete="off"
+        placeholder="Type here..."
+      />
+      <button id="passwordBtn" class="btn primary-btn">Unlock</button>
+
+      <p class="password-hint">
+        Clue: <span>danafor</span>
+      </p>
+      <p class="password-error" id="passwordError"></p>
+    </div>
+  </div>
+
+  <!-- PAGE 1: COVER -->
+  <div class="page" id="page-cover" data-index="1">
+    <div class="page-inner cover-card">
+      <div class="cover-content">
+        <h1 class="title-main cover-anim">ULIL AT 25</h1>
+        <p class="subtitle cover-anim-delay">
+          A quiet celebration of a man who keeps going.
+        </p>
+        <button class="btn primary-btn nav-btn" data-nav="next">
+          Begin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: PROLOGUE (TYPING) -->
+  <div class="page" id="page-prologue" data-index="2">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">Prologue</h2>
+      <p class="section-subtitle fade-up-delay">
+        For a boy who became a man long before 25.
+      </p>
+
+      <div id="prologueTyping" class="typing-block"></div>
+
+      <!-- Hidden source text to type -->
+      <div id="prologueSource" class="typing-source">
+        <p>
+          Di dunia yang berisik, kamu bukan orang yang paling banyak bicara.
+          Tapi kalau orang lihat pelan-pelan, hidupmu sebenarnya keras sekaligus indah:
+          lahir di Ambon, sempat tumbuh di Banda, besar di Makassar,
+          dan sekarang jauh lagi di Gemaf demi masa depanmu dan keluarga.
+        </p>
+        <p>
+          Di umur 25, kamu mungkin merasa masih banyak yang harus dicapai.
+          Tapi dari jauh, aku lihat laki-laki yang terus memilih jalan yang tidak mudah,
+          demi orang-orang yang kamu sayang dan demi versi dirimu yang pengen hidup lebih layak.
+        </p>
+        <p>
+          Halaman kecil ini bukan tentang checklist pencapaian.
+          Ini tentang seorang laki-laki yang memilih untuk tetap baik,
+          tetap waras, dan tetap menjadi terang bagi sekitarnya, meski hidup sering nggak lembut.
+        </p>
+        <p>
+          This one is about you, Yusril Ashar Arfandy.
+        </p>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+        <button class="btn primary-btn nav-btn" data-nav="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: JOURNEY -->
+  <div class="page" id="page-journey" data-index="3">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">Ulil's Journey</h2>
+      <p class="section-subtitle fade-up-delay">
+        A quiet timeline of how far you've actually come.
+      </p>
+
+      <div class="journey-block">
+        <div class="journey-section fade-up">
+          <div class="journey-heading">Childhood</div>
+          <p>
+            Ulil lahir di Ambon pada 29 November 2000—anak yang datang ke dunia dengan ambisi bawaan pabrik.
+            Masa kecilnya sempat berputar di Banda, tempat ia jatuh cinta pertama kali… dengan nasi kuning.
+            Katanya, rasanya enak sekali sampai sekarang pun masih kebayang. Kota kecil itu melekat,
+            meninggalkan rindu yang halus setiap kali ia ingat suasananya.
+          </p>
+          <p>
+            Setelah itu ia tumbuh besar di Makassar: bocah ambisius yang selalu unggul di sekolah, berani
+            jadi ketua kelas, ketua organisasi, pemain basket, pecinta game, dan penikmat anime. Dari kecil saja
+            dia sudah “that kid”—yang selalu mau lebih baik dari kemarin.
+          </p>
+        </div>
+
+        <div class="journey-section fade-up-delay">
+          <div class="journey-heading">Growing Up</div>
+          <p>
+            Semakin dewasa, hidup tentu nggak makin gampang. Sama seperti manusia lainnya, Ulil harus menghadapi
+            luka dan kenyataan yang nggak selalu ramah. Dia dekat sekali dengan ibunya—cinta pertamanya dalam
+            bentuk manusia. Ia selalu ingin melindungi dan membanggakan ibunya, apalagi ketika ibunya sakit.
+          </p>
+          <p>
+            Hubungannya dengan ayah dan adiknya tidak selekat itu, tapi justru karena kedekatannya dengan ibu,
+            ia belajar tentang tanggung jawab, tentang merawat, tentang menjadi dewasa sebelum waktunya.
+            Ada masa ketika ia harus mengurus orang tuanya yang sakit. Semua itu membentuk dia jadi pria
+            yang kuat, lembut, dan penuh empati.
+          </p>
+        </div>
+
+        <div class="journey-section fade-up-delay2">
+          <div class="journey-heading">Adulting Era</div>
+          <p>
+            Sekarang Ulil sudah dewasa. Hidupnya penuh keputusan besar dan berani. Dia meninggalkan Makassar,
+            merantau jauh ke pelosok Halmahera Tengah demi mencari jalan baru. Sebelum berangkat, dia
+            mempersiapkan diri: ikut sertifikasi, belajar ini-itu, memastikan dirinya siap menghadapi dunia.
+            Sampai akhirnya dia masuk IWIP—tempat yang penuh tantangan.
+          </p>
+          <p>
+            Workflow gila, jam kerja tidak manusiawi, sinyal hilang-hidup, listrik mati, makanan kurang enak,
+            panas yang bikin jiwa menguap—tapi dia tetap berdiri tegak. Dia hemat, dia bertahan, dia menabung
+            untuk rencana besar berikutnya: Australia.
+          </p>
+          <p>
+            Life hits hard sometimes—karier, ekonomi, cinta—naik turun sudah pernah dirasakan.
+            Tapi satu hal yang selalu sama: dia mau memperbaiki diri, dan itu pula yang menyatukan kita berdua.
+          </p>
+          <p>
+            Ulil itu perjalanan. Dan perjalanan itu terus tumbuh—dan aku beruntung bisa menyaksikannya dari dekat,
+            bahkan ikut jadi bagian di beberapa hal kecilnya. ✧
+          </p>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+        <button class="btn primary-btn nav-btn" data-nav="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: TRIVIA (CROSSWORD STYLE — INTERAKTIF) -->
+<div class="page" id="page-trivia" data-index="4">
+  <div class="page-inner text-card">
+    <h2 class="section-title fade-up">Trivia</h2>
+    <p class="section-subtitle fade-up-delay">
+      Hayooo diisi! :p
+    </p>
+
+    <div class="crossword-grid-container">
+      <!-- Clue 1 -->
+      <div class="crossword-item">
+        <div class="clue-label">1.</div>
+        <div class="clue-text">Makanan kesukaan abang</div>
+        <div class="crossword-boxes" data-answer="GULAI TUNJANG"></div>
+
+        <div class="crossword-input-row">
+          <input
+            type="text"
+            class="crossword-input"
+            placeholder="jawaban kamu..."
+            autocomplete="off"
+          />
+          <button class="crossword-submit">OK</button>
+        </div>
+      </div>
+
+      <!-- Clue 2 -->
+      <div class="crossword-item">
+        <div class="clue-label">2.</div>
+        <div class="clue-text">Tempat lahir abang?</div>
+        <div class="crossword-boxes" data-answer="AMBON"></div>
+
+        <div class="crossword-input-row">
+          <input
+            type="text"
+            class="crossword-input"
+            placeholder="jawaban kamu..."
+            autocomplete="off"
+          />
+          <button class="crossword-submit">OK</button>
+        </div>
+      </div>
+
+      <!-- Clue 3 -->
+      <div class="crossword-item">
+        <div class="clue-label">3.</div>
+        <div class="clue-text">Kampus abang?</div>
+        <div class="crossword-boxes" data-answer="UNHAS"></div>
+
+        <div class="crossword-input-row">
+          <input
+            type="text"
+            class="crossword-input"
+            placeholder="jawaban kamu..."
+            autocomplete="off"
+          />
+          <button class="crossword-submit">OK</button>
+        </div>
+      </div>
+
+      <!-- Clue 4 -->
+      <div class="crossword-item">
+        <div class="clue-label">4.</div>
+        <div class="clue-text">.... asam.</div>
+        <div class="crossword-boxes" data-answer="BOTTO"></div>
+
+        <div class="crossword-input-row">
+          <input
+            type="text"
+            class="crossword-input"
+            placeholder="jawaban kamu..."
+            autocomplete="off"
+          />
+          <button class="crossword-submit">OK</button>
+        </div>
+      </div>
+
+      <!-- Clue 5 -->
+      <div class="crossword-item">
+        <div class="clue-label">5.</div>
+        <div class="clue-text">Tempat kerja abang?</div>
+        <div class="crossword-boxes" data-answer="IWIP"></div>
+
+        <div class="crossword-input-row">
+          <input
+            type="text"
+            class="crossword-input"
+            placeholder="jawaban kamu..."
+            autocomplete="off"
+          />
+          <button class="crossword-submit">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="tiny-note">
+      Jawab pelan-pelan aja. Kalau semua benar, halaman berikutnya bakal kebuka sendiri. ;)
+    </p>
+
+    <div class="nav-row">
+      <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+      <!-- NEXT dikunci dulu, nanti dibuka lewat JS -->
+      <button id="triviaNext" class="btn primary-btn nav-btn" data-nav="next" disabled>
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+  <!-- PAGE 5: MINI GATE ke 25 THINGS -->
+  <div class="page" id="page-gate25" data-index="5">
+    <div class="page-inner password-card">
+      <h2 class="section-title">Checkpoint</h2>
+      <p class="section-subtitle">
+        884.574 - 884.549?
+      </p>
+
+      <label class="password-label" for="gate25Input">Jawab dengan angka</label>
+      <input
+        type="number"
+        id="gate25Input"
+        class="password-input"
+        autocomplete="off"
+        placeholder="..."
+      />
+      <button id="gate25Btn" class="btn primary-btn">Submit</button>
+
+      <p class="password-error" id="gate25Error"></p>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: 25 THINGS (ACCORDION) -->
+  <div class="page" id="page-reasons" data-index="6">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">✧ 25 THINGS I LOVE ABOUT YOU ✧</h2>
+      <p class="section-subtitle fade-up-delay">
+        25 dari sekian triliyun.
+      </p>
+
+      <div class="reasons-wrapper">
+        <div class="reason-card">
+          <div class="reason-title">Your kindness.</div>
+          <div class="reason-body">
+            You came into my life like an angel. Every time I hit my lowest point, you were there. Always.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your work ethic.</div>
+          <div class="reason-body">
+            You give your all in everything—school, college, work. You’re unbelievably dedicated.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your intelligence.</div>
+          <div class="reason-body">
+            You’re so smart, so curious. A true knowledge seeker. I love how you read, learn, and absorb everything.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your authenticity.</div>
+          <div class="reason-body">
+            You’re real. Pure. No unnecessary drama or pretentiousness.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your handsomeness.</div>
+          <div class="reason-body">
+            I’m obsessed with your look, your face, your body—EVERYTHING. Always have been.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your voice.</div>
+          <div class="reason-body">
+            Soft, calming, soothing. Instant peace.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your gentleness.</div>
+          <div class="reason-body">
+            The way you speak, choose words, and express emotions… it’s all so soft and warm.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your love for your mom.</div>
+          <div class="reason-body">
+            The way you adore her, protect her, talk about her… it melts my heart. She raised a good man.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your love for me.</div>
+          <div class="reason-body">
+            I never thought I could be loved this sincerely. Two years apart, yet you stayed. I see your effort. I appreciate it deeply.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your courage.</div>
+          <div class="reason-body">
+            You stand up for yourself. You take big steps. You speak with confidence. You are that man.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your discipline and consistency.</div>
+          <div class="reason-body">
+            You’ve always been diligent—studying, working, living on your own. You handle life like a grown man.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your humor.</div>
+          <div class="reason-body">
+            You’re so funny—especially because our humor matches perfectly. Thanks for introducing Podcast Seminggu, bocah nanas!
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your childish side.</div>
+          <div class="reason-body">
+            You look all sasimo and macho, but sometimes you act like a little baby… and it's adorable. I’m honored you trust me enough to show that side.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your sense of timing.</div>
+          <div class="reason-body">
+            You know when to joke, when to be serious, when to act, when to pause. That’s emotional intelligence.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your way of compromising.</div>
+          <div class="reason-body">
+            Logical but still gentle. Structured but still emotional. A very rare balance.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your sincerity.</div>
+          <div class="reason-body">
+            Nothing about you feels fake. Thank you for accepting me with all my flaws.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your eyes.</div>
+          <div class="reason-body">
+            Sharp, captivating… I could stare at them forever.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Actually, all your features.</div>
+          <div class="reason-body">
+            Everything. Visible or hidden under your clothes hehe.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">How you feel like home.</div>
+          <div class="reason-body">
+            Even when you think I don’t trust you enough, the truth is: you’re the person I trust the most. You know almost everything about me.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your survival skills.</div>
+          <div class="reason-body">
+            What you endure in Halteng? I would NEVER survive that. You’re incredibly strong.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your opportunistic brilliance.</div>
+          <div class="reason-body">
+            You’re smart at spotting chances—like that PS trading you did. Genius.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">The way you tell stories.</div>
+          <div class="reason-body">
+            You talk with passion, with spark. If we meet in person, I know I’ll see the excitement in your eyes too.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">The way you listen.</div>
+          <div class="reason-body">
+            You’re not just a talker—you’re a good listener. You respond thoughtfully. That’s rare.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your sense of responsibility.</div>
+          <div class="reason-body">
+            You take life seriously. Work, family, everyday decisions—you handle them like a man.
+          </div>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title">Your growth.</div>
+          <div class="reason-body">
+            Maybe this is your strongest trait: you don’t stay the same. You reflect, improve, evolve. Watching you grow inspires me too.
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+        <button class="btn primary-btn nav-btn" data-nav="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7: PHOTOBOX -->
+  <div class="page" id="page-photo" data-index="7">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">Photodump</h2>
+      <p class="section-subtitle fade-up-delay">
+        Player 1 & Player 2. Dua frame dulu, satu cerita.
+      </p>
+
+      <div class="photo-row">
+        <div class="photo-card photo-left">
+          <div class="player-label">Player 1</div>
+          <img src="/Users/macbookpro/Downloads/WhatsApp Image 2025-11-28 at 23.40.02 (1).jpeg" alt="Ulil" />
+          <p class="photo-caption">Currently: somewhere far, but still here.</p>
+        </div>
+        <div class="photo-card photo-right">
+          <div class="player-label">Player 2</div>
+          <img src="/Users/macbookpro/Downloads/WhatsApp Image 2025-11-28 at 23.40.02.jpeg" alt="Jeje" />
+          <p class="photo-caption">Currently: on the other side of the map.</p>
+        </div>
+      </div>
+
+      <p class="tiny-note">
+        Suatu hari nanti, foto ini nggak akan terpisah layar lagi. WACAU!!!
+      </p>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+        <button class="btn primary-btn nav-btn" data-nav="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8: GIFTS -->
+  <div class="page" id="page-gifts" data-index="8">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">Gifts</h2>
+      <p class="section-subtitle fade-up-delay">
+        Bukan sekadar barang, tapi momen yang belum kejadian.
+      </p>
+
+      <div class="gift-row">
+        <div class="gift-card">
+          <div class="gift-front">🎬</div>
+          <div class="gift-back">
+            <div class="gift-title">Cinema Date</div>
+            <p>
+              Kupon traktir nonton bioskop, sekali kita ada di kota yang sama
+              dan bisa duduk sebelahan.
+            </p>
+          </div>
+        </div>
+
+        <div class="gift-card">
+          <div class="gift-front">🎮</div>
+          <div class="gift-back">
+            <div class="gift-title">Gaming Session</div>
+            <p>
+              Main game bareng di studio atau game center. Kamu pilih gamenya,
+              aku yang nemenin dan traktir.
+            </p>
+          </div>
+        </div>
+
+        <div class="gift-card">
+          <div class="gift-front">🎁</div>
+          <div class="gift-back">
+            <div class="gift-title">Physical Gift</div>
+            <p>
+              Hadiah fisik yang nggak bisa dikirim ke pelosokmu sekarang,
+              tapi bakal kamu terima pas kita ketemu.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+        <button class="btn primary-btn nav-btn" data-nav="next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9: LETTER (TYPING SLOW) -->
+  <div class="page" id="page-letter" data-index="9">
+    <div class="page-inner text-card">
+      <h2 class="section-title fade-up">Letter</h2>
+      <p class="section-subtitle fade-up-delay">
+        Sepucuk surat untuk orang favoritku.
+      </p>
+
+      <div id="letterTyping" class="typing-block"></div>
+
+      <!-- hidden letter source -->
+      <div id="letterSource" class="typing-source">
+        <p>happy birthday, abang sayang..</p>
+        <p>
+          hari ini abang ulang tahun. hati adek rasanya ikut hangat karena adek merasa beruntung akhirnya tahun ini bisa rayain bareng abang lagi setelah kelewat satu tahun.. tp adek berterima kasih sama Tuhan karena masih dikasih kesempatan buat kenal abang, sayang sama abang, memperbaiki lg sama abang, dan membersamai sedikit demi sedikit perjalanan abang yang luar biasa.
+        </p>
+        <p>
+          adek tau hidup ngga selalu lembut sama abang.
+          banyak hal yang abang pikirkan dan abang tanggung, yang bikin abang kadang harus kuat sendirian.
+        </p>
+        <p>
+          tapi abang tetap bertahan.
+          tetap jadi lelaki baik.
+          tetap jadi anak yg sayang sekali sama mama.
+          tetap punya mimpi besar.
+          tetap punya hati yang lembut.
+        </p>
+        <p>
+          dan adek bangga banget.
+          bangga banget punya abang.
+          beruntung bisa mencintai dan dicintai abang.
+        </p>
+        <p>
+          adek bersyukur Tuhan pertemukan kita. walau cara ketemunya unik, jalannya ngga mudah bahkan cenderung ekstrim kayak rollercoaster.. adek tetap merasa abang adalah berkat di hidup adek.
+        </p>
+        <p>
+          dari semua gelap yg menyelimuti adek, adek punya abang buat jadi satu2nya pencahayaan di hidup adek.
+          abang yang tetap stay saat adek lagi rapuh2nya, abang yang sabar nungguin adek yg susah terbuka.. itu bukan cinta biasa, abang.. itu keteguhan hati dan adek sangat menghargai itu. izinkan adek membalas itu semua ya segera.
+        </p>
+        <p>
+          terima kasih sudah mencintai adek tanpa syarat, abang.. sudah terus percaya walau banyak luka dan salah paham. makasih sudah mau jadi tempat adek pulang, tempat adek cerita, tempat adek merasa aman.
+        </p>
+        <p>
+          adek akan berusaha buat lebih terbuka sama abang.
+          adek mau kita sama-sama sembuh,
+          sama-sama tumbuh.
+        </p>
+        <p>
+          dan adek percaya abang bisa capai semua mimpi abang. adek percaya karena walau dr jauh pun adek selalu bisa lihat kerja keras dan keberanian abang. dan ingay.... abang ngga sendirian ya. adaji adek. walau masih kehalang jarak, tp adek akan selalu ada. one call away, sampai akhirnya nanti bisa skin to skin hehe.
+        </p>
+        <p>
+          selamat ulang tahun, pacarku sayang.
+          semoga langkah abang di umur yg 25 ini lebih ringan, lebih berkah, dan bahagia. semoga Tuhan selalu jaga abang dan keluarga abang, dikaruniai kesehatan dan rezeki.
+        </p>
+        <p>
+          aaaamin.
+          i love you so much, orang favoritku nomor 123456isinyanamamuhurufbesarsemuaaaaaaYUSRIL ASHAR ARFANDY!
+        </p>
+        <p>
+          sincerely,
+          adek
+        </p>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost-btn nav-btn" data-nav="prev">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

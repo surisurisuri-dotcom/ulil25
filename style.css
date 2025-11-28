@@ -10,7 +10,7 @@ body {
   /* background foto full-screen */
   background:
     linear-gradient(135deg, rgba(5, 8, 20, 0.80), rgba(5, 8, 20, 0.96)),
-    url("/Users/macbookpro/Downloads/Untitled design (22).png") center center / cover no-repeat fixed;
+    url("Untitled design (22).png") center center / cover no-repeat fixed;
   font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
   color: #f5f5f7;

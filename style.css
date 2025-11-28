@@ -606,7 +606,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== GIFTS ===== */
+/* ===== GIFTS – FLIP CARD STYLE ===== */
 
 .gifts-wrapper {
   margin-top: 16px;
@@ -616,23 +616,69 @@ body {
 }
 
 .gift-card {
-  border-radius: 22px;
-  border: 1px solid rgba(164, 175, 211, 0.45);
-  padding: 12px 16px;
-  background: rgba(8, 12, 32, 0.92);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  perspective: 1200px;
+  cursor: pointer;
 }
 
-.gift-header {
+.gift-inner {
+  position: relative;
+  width: 100%;
+  border-radius: 22px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.gift-card.flipped .gift-inner {
+  transform: rotateY(180deg);
+}
+
+.gift-face {
+  position: relative;
+  border-radius: 22px;
+  border: 1px solid rgba(164, 175, 211, 0.45);
+  background: rgba(8, 12, 32, 0.96);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  padding: 14px 16px;
+  backface-visibility: hidden;
+  min-height: 90px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+  gap: 12px;
+}
+
+.gift-front {
+  justify-content: flex-start;
+}
+
+.gift-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .gift-emoji {
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1;
+}
+
+.gift-front-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.gift-label {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #f1d28a;
+}
+
+.gift-hint {
+  font-size: 12px;
+  opacity: 0.75;
 }
 
 .gift-title {
@@ -640,36 +686,26 @@ body {
   font-weight: 600;
   letter-spacing: 0.03em;
   color: #f1d28a;
+  margin-bottom: 4px;
 }
 
 .gift-desc {
   margin: 0;
-  margin-top: 4px;
   font-size: 13px;
   line-height: 1.5;
-  opacity: 0.92;
+  opacity: 0.9;
 }
 
-/* Mobile tweak khusus Gifts */
+/* Mobile tweaks */
 @media (max-width: 768px) {
-  #page-gifts .page-inner {
-    padding-bottom: 120px; /* ruang ekstra di bawah biar nggak kepepet nav */
+  .gift-face {
+    padding: 14px 14px;
   }
-
-  .gift-card {
-    padding: 12px 14px;
-  }
-
   .gift-emoji {
-    font-size: 32px; /* emoji lebih besar di HP */
+    font-size: 32px;
   }
-
-  .gift-title {
+  .gift-label {
     font-size: 16px;
-  }
-
-  .gifts-wrapper {
-    gap: 12px;
   }
 }
 

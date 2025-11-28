@@ -277,3 +277,11 @@ reasonCards.forEach((card) => {
 
 // ===== AWAL: TAMPILKAN PAGE PASSWORD =====
 showPage(0);
+
+// ===== JUMP BUTTONS (FINAL PAGE) =====
+document.querySelectorAll('.final-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const jumpTo = parseInt(btn.dataset.jump);
+    goToPage(jumpTo);
+  });
+});

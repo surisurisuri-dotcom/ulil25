@@ -1,0 +1,740 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* background foto full-screen */
+  background:
+    linear-gradient(135deg, rgba(5, 8, 20, 0.80), rgba(5, 8, 20, 0.96)),
+    url("/Users/macbookpro/Downloads/Untitled design (22).png") center center / cover no-repeat fixed;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: #f5f5f7;
+  overflow: hidden; /* no scroll bocor */
+}
+
+body {
+  position: relative;
+}
+
+/* GLOBAL LABELS */
+
+.top-label {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c1c7dd;
+  z-index: 20;
+}
+
+.stage-indicator {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #d7bd7a;
+  z-index: 20;
+}
+
+/* PAGE WRAPPER */
+
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* PAGE INNER CARD */
+
+.page-inner {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 28px 24px 24px;
+  background: rgba(5, 8, 20, 0.96);
+  border: 1px solid rgba(92, 105, 155, 0.85);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
+}
+
+/* CARD VARIANTS */
+
+.password-card {
+  text-align: center;
+}
+
+.cover-card {
+  text-align: center;
+}
+
+.text-card {
+  max-width: 720px;
+}
+
+/* TITLES */
+
+.title-main {
+  font-family: "Merriweather", serif;
+  font-size: 32px;
+  margin: 6px 0 10px;
+  color: #f1d28a;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.86;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: "Merriweather", serif;
+  font-size: 24px;
+  margin-bottom: 6px;
+  color: #f1d28a;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  opacity: 0.82;
+  margin-bottom: 14px;
+}
+
+/* BUTTONS */
+
+.btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #f1d28a, #d4b56a);
+  color: #11131d;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.8);
+  transition: 0.25s ease;
+}
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #ffe4a7, #f1d28a);
+  transform: translateY(-1px);
+}
+
+.ghost-btn {
+  background: transparent;
+  color: #f5f5f7;
+  border: 1px solid rgba(112, 125, 175, 0.9);
+  transition: 0.25s ease;
+}
+
+.ghost-btn:hover {
+  background: rgba(18, 23, 48, 0.95);
+}
+
+.nav-row {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* PASSWORD GATE */
+
+.password-label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.password-input {
+  width: 220px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(112, 125, 175, 0.9);
+  background: #0d1122;
+  color: #f5f5f7;
+  margin-bottom: 8px;
+  outline: none;
+}
+
+.password-input:focus {
+  border-color: #f1d28a;
+}
+
+.password-hint {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+.password-hint span {
+  color: #f1d28a;
+}
+
+.password-error {
+  font-size: 12px;
+  color: #e66b66;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+/* error shake */
+
+.password-card.shake {
+  animation: shakeBox 0.35s ease;
+}
+
+/* COVER ANIM */
+
+.cover-content {
+  padding: 30px 0 12px;
+}
+
+.cover-anim {
+  animation: coverPop 0.9s ease forwards;
+}
+
+.cover-anim-delay {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.25s;
+}
+
+/* PROLOGUE & LETTER TYPING */
+
+.typing-block {
+  margin-top: 10px;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  min-height: 180px;
+  position: relative;
+}
+
+.typing-block::after {
+  content: "▋";
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 14px;
+  animation: cursorBlink 0.8s steps(1) infinite;
+}
+
+.typing-source {
+  display: none;
+}
+
+/* JOURNEY BLOCK */
+
+.journey-block {
+  margin-top: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.journey-section {
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.journey-heading {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #f1d28a;
+  margin-bottom: 4px;
+}
+
+.journey-section p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 4px 0;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.fade-up-delay {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+  animation-delay: 0.15s;
+}
+
+.fade-up-delay2 {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* TRIVIA CROSSWORD STYLE */
+
+.crossword-grid-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crossword-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 4px;
+  padding: 10px 10px 8px;
+  border-radius: 12px;
+  background: rgba(10, 13, 30, 0.95);
+  border: 1px solid rgba(104, 118, 168, 0.9);
+}
+
+.clue-label {
+  font-size: 13px;
+  color: #f1d28a;
+}
+
+.clue-text {
+  font-size: 13px;
+  align-self: center;
+}
+
+.crossword-boxes {
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.cross-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid rgba(165, 174, 214, 0.9);
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 20, 0.9);
+}
+
+.cross-box.space {
+  border: none;
+  background: transparent;
+  width: 10px;
+}
+
+.reveal-btn {
+  grid-column: 1 / span 2;
+  margin-top: 4px;
+  align-self: flex-start;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(136, 147, 193, 0.95);
+  background: transparent;
+  color: #f5f5f7;
+  cursor: pointer;
+}
+
+.reveal-btn:hover {
+  background: rgba(22, 29, 60, 0.95);
+}
+
+.tiny-note {
+  margin-top: 10px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.crossword-input-row {
+  grid-column: 1 / span 2;
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.crossword-input {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(136, 147, 193, 0.95);
+  background: #05081a;
+  color: #f5f5f7;
+  font-size: 12px;
+  outline: none;
+}
+
+.crossword-input:focus {
+  border-color: #f1d28a;
+}
+
+.crossword-submit {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(241, 210, 138, 0.9);
+  color: #11131d;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.crossword-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cross-box.filled {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.crossword-item.shake {
+  animation: shakeBox 0.35s ease;
+}
+
+.error-input {
+  border-color: #e66b66 !important;
+}
+
+.btn[disabled] {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* 25 THINGS — ACCORDION */
+
+.reasons-wrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.reason-card {
+  background: rgba(10, 13, 30, 0.96);
+  border-radius: 14px;
+  border: 1px solid rgba(114, 125, 177, 0.9);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+    transform 0.15s ease;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.reason-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.reason-card:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.reason-card:nth-child(3) {
+  animation-delay: 0.13s;
+}
+.reason-card:nth-child(4) {
+  animation-delay: 0.17s;
+}
+.reason-card:nth-child(5) {
+  animation-delay: 0.21s;
+}
+.reason-card:nth-child(6) {
+  animation-delay: 0.25s;
+}
+/* sisanya lanjut natural aja */
+
+.reason-title {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reason-title::after {
+  content: "＋";
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.reason-card.open .reason-title::after {
+  content: "−";
+}
+
+.reason-body {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 4px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+
+.reason-card.open {
+  background: rgba(16, 21, 48, 0.98);
+  border-color: #f1d28a;
+  transform: translateY(0);
+}
+
+.reason-card.open .reason-body {
+  max-height: 200px;
+  opacity: 1;
+}
+
+/* PHOTOBOX */
+
+.photo-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.photo-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  background: rgba(9, 12, 30, 0.98);
+  border-radius: 18px;
+  padding: 12px;
+  border: 1px solid rgba(106, 119, 171, 0.85);
+  text-align: center;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
+}
+
+.photo-left {
+  animation: slideInLeft 0.7s ease forwards;
+  opacity: 0;
+}
+
+.photo-right {
+  animation: slideInRight 0.7s ease forwards;
+  opacity: 0;
+}
+
+.player-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.photo-card img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.photo-caption {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* GIFTS */
+
+.gift-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.gift-card {
+  flex: 1 1 0;
+  min-width: 190px;
+  height: 140px;
+  perspective: 800px;
+}
+
+.gift-front,
+.gift-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-front {
+  background: linear-gradient(135deg, #f1d28a, #d5b56b);
+  font-size: 28px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.8);
+}
+
+.gift-back {
+  background: rgba(9, 12, 30, 0.98);
+  border: 1px solid rgba(112, 124, 176, 0.9);
+  flex-direction: column;
+  padding: 12px 14px;
+  transform: rotateY(180deg);
+}
+
+.gift-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #f1d28a;
+}
+
+.gift-back p {
+  font-size: 12px;
+  opacity: 0.86;
+}
+
+.gift-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s ease;
+}
+
+.gift-card:hover {
+  transform: rotateY(180deg);
+}
+
+/* ANIMATION HELPERS */
+
+@keyframes coverPop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes shakeBox {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .page-inner {
+    padding: 22px 16px 18px;
+  }
+
+  .nav-row {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .nav-row .btn {
+    width: 100%;
+  }
+
+  .photo-row {
+    flex-direction: column;
+  }
+
+  .gift-row {
+    flex-direction: column;
+  }
+
+  .top-label {
+    font-size: 10px;
+  }
+
+  .stage-indicator {
+    font-size: 10px;
+  }
+}

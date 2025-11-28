@@ -17,6 +17,44 @@ body {
   overflow: hidden; /* no scroll bocor */
 }
 
+/* --- MOBILE FIX: allow scroll & keep nav visible --- */
+@media (max-width: 768px) {
+  html,
+  body {
+    height: 100%;
+    overflow-y: auto;      /* boleh scroll vertikal di HP */
+  }
+
+  .page {
+    align-items: flex-start;   /* konten mulai dari atas, bukan tengah */
+    padding-top: 40px;
+    padding-bottom: 120px;     /* ruang buat tombol Next di bawah */
+  }
+
+  .page-inner {
+    margin: 0 auto;
+    max-height: none;
+  }
+
+  .nav-row {
+    position: sticky;          /* nempel di bawah viewport */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 16px 16px;
+    margin-top: 16px;
+    background: linear-gradient(
+      to top,
+      rgba(5, 8, 20, 0.96),
+      rgba(5, 8, 20, 0)
+    );
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 50;
+  }
+}
+
 body {
   position: relative;
 }

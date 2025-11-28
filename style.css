@@ -780,3 +780,49 @@ body {
     font-size: 10px;
   }
 }
+
+/* ===== FINAL PAGE (OVERVIEW) ===== */
+
+.final-menu {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.final-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(241, 210, 138, 0.4);
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  color: #f5f5f7;
+  transition: 0.35s ease;
+}
+
+.final-btn:hover {
+  background: rgba(241, 210, 138, 0.18);
+  transform: translateY(-3px);
+}
+
+.final-btn.primary {
+  background: linear-gradient(135deg, #f1d28a, #d4b567);
+  border: none;
+  color: #111;
+  font-weight: 600;
+}
+
+.final-btn.primary:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.07);
+}
+
+/* MOBILE TWEAK */
+@media (max-width: 768px) {
+  .final-btn {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
